@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Utilities.Models.Responses.Generic;
+using Utilities.Helpers;
 
 namespace WebApi.Controllers
 {
@@ -8,22 +10,20 @@ namespace WebApi.Controllers
     [ApiController]
     [Route("[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController(ILogger<WeatherForecastController> logger) : ControllerBase
     {
-        private static readonly string[] Summaries =
-        [
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        ];
+        private readonly ILogger _logger = logger;
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet(Name = "Test")]
+        public async Task<CommonResponse> Get()
         {
-            return [.. Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var response = new CommonResponse
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })];
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Message = "Success",
+            };
+
+            return response.WithResponseLog(_logger);
         }
     }
 }
