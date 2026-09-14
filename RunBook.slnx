@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="DAL/DAL.csproj" Id="6c8895af-904a-4d83-a419-07631835e707" />
   <Project Path="Utilities/Utilities.csproj" Id="f0fccd92-f0f5-4ab5-9c40-7e5c19c7e2a7" />
   <Project Path="WebApi/WebApi.csproj" />
 </Solution>
