@@ -1,15 +1,16 @@
-using Microsoft.AspNetCore.Authorization;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
-using Utilities.Models.Responses.Generic;
 using Utilities.Helpers;
+using Utilities.Models.Responses.Generic;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers.v1
 {
-    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [ApiVersion("1.0")]
+    [Produces("application/json")]
     public class WeatherForecastController(ILogger<WeatherForecastController> logger) : ControllerBase
     {
         private readonly ILogger _logger = logger;
