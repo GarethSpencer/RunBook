@@ -1,7 +1,17 @@
-﻿namespace WebApi.ProgramExtensions;
+﻿using DAL.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace WebApi.ProgramExtensions;
 
 public static class ApplicationExtensions
 {
+    public static void ApplyMigrations(this WebApplication application)
+    {
+        using var scope = application.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<RunBookDbContext>();
+        dbContext.Database.Migrate();
+    }
+
     public static void ConfigureOpenApi(this WebApplication app, IConfiguration config)
     {
         app.MapOpenApi()

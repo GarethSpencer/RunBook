@@ -1,4 +1,5 @@
 ﻿using DAL.Data.Configuration;
+using DAL.Entities;
 using DAL.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,13 @@ namespace DAL.Data;
 
 public class RunBookDbContext(DbContextOptions<RunBookDbContext> options) : DbContext(options)
 {
+    public DbSet<User> Users => Set<User>();
+    public DbSet<ExerciseType> ExerciseTypes => Set<ExerciseType>();
+    public DbSet<TrackedExercise> TrackedExercises => Set<TrackedExercise>();
+    public DbSet<DailyExercise> DailyExercises => Set<DailyExercise>();
+    public DbSet<Steps> Steps => Set<Steps>();
+    public DbSet<Medication> Medications => Set<Medication>();
+    public DbSet<Weight> Weights => Set<Weight>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
