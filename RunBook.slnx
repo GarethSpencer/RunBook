@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="DAL/DAL.csproj" Id="6c8895af-904a-4d83-a419-07631835e707" />
+  <Project Path="RepositoryLayer/RepositoryLayer.csproj" Id="dd7da964-5a2a-46db-a500-1139fbcafc5d" />
+  <Project Path="ServiceLayer/ServiceLayer.csproj" Id="92f404e7-7c3e-4048-b195-7eeec1281ecc" />
   <Project Path="Utilities/Utilities.csproj" Id="f0fccd92-f0f5-4ab5-9c40-7e5c19c7e2a7" />
   <Project Path="WebApi/WebApi.csproj" />
 </Solution>

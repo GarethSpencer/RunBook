@@ -79,4 +79,10 @@ public static class ServiceExtensions
                 .RequireAuthenticatedUser()
                 .Build());
     }
+
+    public static void ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddHealthChecks()
+            .AddSqlServer(configuration.GetConnectionString("Default")!);
+    }
 }

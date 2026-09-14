@@ -1,0 +1,28 @@
+﻿using DAL.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using RepositoryLayer.Abstractions.Generic;
+using RepositoryLayer.Infrastructure.Generic;
+
+namespace RepositoryLayer;
+
+public static class RepositoryLayerServiceExtensions
+{
+    public static IServiceCollection AddRepositoryLayer(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<RunBookDbContext>(opts =>
+            opts.UseSqlServer(configuration.GetConnectionString("Default"), sql => _ = sql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null)));
+
+        services.AddScoped(typeof(IEFRepository<>), typeof(EFRepository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddRepositories();
+
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        return services;
+    }
+}
