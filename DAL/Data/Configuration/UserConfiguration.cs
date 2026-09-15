@@ -13,7 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Email).HasMaxLength(256);
         builder.Property(u => u.WeeklyExerciseGoal).HasDefaultValue(3);
         builder.Property(u => u.DailyStepGoal).HasDefaultValue(10000);
-        builder.Property(u => u.PerfersKg).HasDefaultValue(true);
+        builder.Property(u => u.PrefersKg).HasDefaultValue(true);
         builder.Property(u => u.TargetWeight).HasPrecision(6, 2);
 
         builder.HasIndex(u => u.AuthId)
