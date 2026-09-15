@@ -70,6 +70,12 @@ public static class ServiceExtensions
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
+
+        services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+            options.MapInboundClaims = false;
+            options.TokenValidationParameters.RoleClaimType = "roles";
+        });
     }
 
     public static void ConfigureAuthorization(this IServiceCollection services)

@@ -5,12 +5,11 @@ namespace DAL.Entities;
 public class User : AuditableEntity
 {
     public Guid UserId { get; set; }
-    public string? AuthId { get; set; }
-    public required string DisplayName { get; set; }
-    public required string Email { get; set; }
-    public required bool Active { get; set; }
-    public required bool Admin { get; set; }
-    public required bool PrefersKg { get; set; }
+    public required Guid AuthId { get; set; }
+    public required string PreferredName { get; set; }
+    public bool Active { get; set; }
+    public bool Admin { get; set; }
+    public bool PrefersKg { get; set; }
     public int? WeeklyExerciseGoal { get; set; }
     public int? DailyStepGoal { get; set; }
     public decimal? TargetWeight { get; set; }

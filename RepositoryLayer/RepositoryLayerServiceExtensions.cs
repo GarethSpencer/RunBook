@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RepositoryLayer.Abstractions;
 using RepositoryLayer.Abstractions.Generic;
+using RepositoryLayer.Infrastructure;
 using RepositoryLayer.Infrastructure.Generic;
 
 namespace RepositoryLayer;
@@ -23,6 +25,8 @@ public static class RepositoryLayerServiceExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
+        services.AddScoped<IUserRepository, UserRepository>();
+
         return services;
     }
 }

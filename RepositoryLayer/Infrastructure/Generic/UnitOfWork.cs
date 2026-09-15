@@ -1,14 +1,18 @@
 ﻿using DAL.Data;
 using RepositoryLayer.Abstractions.Generic;
+using Utilities.Models.Token;
 
 namespace RepositoryLayer.Infrastructure.Generic;
 
-public class UnitOfWork(RunBookDbContext dbContext) : IUnitOfWork
+public class UnitOfWork(RunBookDbContext dbContext, ITokenData tokenData) : IUnitOfWork
 {
-    protected readonly RunBookDbContext _dbContext = dbContext;
-
     public async Task<int> SaveChangesAsync(CancellationToken ct = default)
     {
-        return await _dbContext.SaveChangesAsync(ct);
+        if (tokenData?.UserId != null)
+        {
+            return await dbContext.SaveChangesAsync(tokenData.UserId.Value, ct);
+        }
+
+        return await dbContext.SaveChangesAsync(ct);
     }
 }

@@ -8,16 +8,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(u => u.AuthId).HasMaxLength(128);
-        builder.Property(u => u.DisplayName).HasMaxLength(30);
-        builder.Property(u => u.Email).HasMaxLength(256);
-        builder.Property(u => u.WeeklyExerciseGoal).HasDefaultValue(3);
+        builder.Property(u => u.PreferredName).HasMaxLength(30);
+        builder.Property(u => u.Admin).HasDefaultValue(false);
+        builder.Property(u => u.Active).HasDefaultValue(true).HasSentinel(false);
+        builder.Property(u => u.PrefersKg).HasDefaultValue(true).HasSentinel(false);
         builder.Property(u => u.DailyStepGoal).HasDefaultValue(10000);
-        builder.Property(u => u.PrefersKg).HasDefaultValue(true);
+        builder.Property(u => u.WeeklyExerciseGoal).HasDefaultValue(3);
         builder.Property(u => u.TargetWeight).HasPrecision(6, 2);
 
-        builder.HasIndex(u => u.AuthId)
-            .HasDatabaseName("IX_User_AuthId")
-            .IsUnique();
+        builder.HasIndex(u => u.AuthId).HasDatabaseName("IX_User_AuthId").IsUnique();
     }
 }

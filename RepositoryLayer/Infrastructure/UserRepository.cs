@@ -13,7 +13,7 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
 {
     public async Task<(IEnumerable<UserAdminResult>, int)> GetAllAsync(PaginationBaseRequest request, CancellationToken ct)
     {
-        var query = _dbSet.OrderBy(u => u.DisplayName);
+        var query = _dbSet.OrderBy(u => u.PreferredName);
 
         var total = await query.CountAsync(ct);
 
@@ -24,7 +24,7 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
             {
                 UserId = u.UserId,
                 AuthId = u.AuthId,
-                DisplayName = u.DisplayName,
+                PreferredName = u.PreferredName,
                 Active = u.Active,
                 Admin = u.Admin,
                 CreatedOn = u.CreatedOn,
@@ -50,8 +50,34 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
         {
             UserId = user.UserId,
             AuthId = user.AuthId,
-            DisplayName = user.DisplayName,
-            Email = user.Email,
+            PreferredName = user.PreferredName,
+            Active = user.Active,
+            Admin = user.Admin,
+            PrefersKg = user.PrefersKg,
+            WeeklyExerciseGoal = user.WeeklyExerciseGoal,
+            DailyStepGoal = user.DailyStepGoal,
+            TargetWeight = user.TargetWeight,
+            CreatedOn = user.CreatedOn,
+            CreatedBy = user.CreatedBy,
+            UpdatedOn = user.UpdatedOn,
+            UpdatedBy = user.UpdatedBy
+        };
+    }
+
+    public async Task<UserDetailedResult?> GetDetailsByAuthIdAsync(Guid authId, CancellationToken ct)
+    {
+        var user = await _dbSet.FirstOrDefaultAsync(u => u.AuthId == authId, ct);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        return new UserDetailedResult
+        {
+            UserId = user.UserId,
+            AuthId = user.AuthId,
+            PreferredName = user.PreferredName,
             Active = user.Active,
             Admin = user.Admin,
             PrefersKg = user.PrefersKg,
@@ -75,11 +101,8 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
     {
         var newUser = new User
         {
-            DisplayName = createRequest.DisplayName,
-            Email = createRequest.Email,
-            Admin = createRequest.Admin,
-            Active = true,
-            PrefersKg = true
+            AuthId = createRequest.AuthId,
+            PreferredName = createRequest.PreferredName
         };
 
         await _dbSet.AddAsync(newUser, ct);
@@ -104,18 +127,16 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
 
         if (user != null && user.UserId == callingUserId)
         {
-            user.DisplayName = userRequest.DisplayName;
-            user.Admin = userRequest.Admin;
+            user.PreferredName = userRequest.PreferredName;
             user.Active = userRequest.Active;
             user.PrefersKg = userRequest.PrefersKg ?? user.PrefersKg;
             user.WeeklyExerciseGoal = userRequest.WeeklyExerciseGoal ?? user.WeeklyExerciseGoal;
             user.DailyStepGoal = userRequest.DailyStepGoal ?? user.DailyStepGoal;
             user.TargetWeight = userRequest.TargetWeight ?? user.TargetWeight;
         }
-        else if (user != null)
+        else
         {
-            user.Admin = userRequest.Admin;
-            user.Active = userRequest.Active;
+            user?.Active = userRequest.Active;
         }
     }
 
@@ -125,10 +146,10 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
         user?.Active = true;
     }
 
-    public async Task SetAuthIdAsync(Guid userId, string authId, CancellationToken ct)
+    public async Task SetAdminAsync(Guid userId, bool isAdmin, CancellationToken ct)
     {
         var user = await _dbSet.FindAsync([userId], ct);
-        user?.AuthId = authId;
+        user?.Admin = isAdmin;
     }
 
     public async Task<IEnumerable<UserAdminResult>> GetAllLongTermInactiveAsync(int minimumDaysInactive, CancellationToken ct)
@@ -143,7 +164,7 @@ public sealed class UserRepository(RunBookDbContext dbContext) : EFRepository<Us
                 Admin = u.Admin,
                 CreatedBy = u.CreatedBy,
                 CreatedOn = u.CreatedOn,
-                DisplayName = u.DisplayName,
+                PreferredName = u.PreferredName,
                 UpdatedBy = u.UpdatedBy,
                 UpdatedOn = u.UpdatedOn
             }).ToListAsync(ct);

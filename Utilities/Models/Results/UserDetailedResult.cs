@@ -3,9 +3,8 @@
 public record UserDetailedResult
 {
     public required Guid UserId { get; init; }
-    public required string? AuthId { get; init; }
-    public required string DisplayName { get; init; }
-    public required string Email { get; init; }
+    public required Guid AuthId { get; init; }
+    public required string PreferredName { get; init; }
     public required bool Active { get; init; }
     public required bool Admin { get; init; }
     public bool? PrefersKg { get; init; }

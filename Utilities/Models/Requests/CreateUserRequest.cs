@@ -2,7 +2,6 @@
 
 public record CreateUserRequest
 {
-    public required string DisplayName { get; set; }
-    public required string Email { get; set; }
-    public required bool Admin { get; set; }
+    public required Guid AuthId { get; set; }
+    public required string PreferredName { get; set; }
 }
