@@ -23,6 +23,10 @@ public static class ApplicationExtensions
             options.OAuthClientId(config["AzureAd:ClientId"]);
             options.OAuthUsePkce();
             options.EnablePersistAuthorization();
+            options.OAuthAdditionalQueryStringParams(new Dictionary<string, string>
+            {
+                { "prompt", "select_account" }
+            });
         });
     }
 }

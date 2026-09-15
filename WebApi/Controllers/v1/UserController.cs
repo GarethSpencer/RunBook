@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ServiceLayer.Abstractions;
 using Utilities.Models.Requests;
 using Utilities.Models.Responses;
@@ -13,6 +14,7 @@ namespace WebApi.Controllers.v1;
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
 [Produces("application/json")]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class UserController(
     IUserService userService,
     IValidator<UpdateUserRequest> updateUserRequestValidator) : ControllerBase
