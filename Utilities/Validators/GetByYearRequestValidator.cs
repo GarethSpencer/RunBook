@@ -2,9 +2,9 @@
 
 namespace Utilities.Validators;
 
-public class GetTrackedExerciseByYearRequestValidator : AbstractValidator<int>
+public class GetByYearRequestValidator : AbstractValidator<int>
 {
-    public GetTrackedExerciseByYearRequestValidator()
+    public GetByYearRequestValidator()
     {
         RuleFor(x => x)
             .NotEmpty().WithMessage("Year is required.")

@@ -18,8 +18,7 @@ namespace WebApi.Controllers.v1;
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class TrackedExerciseController(
     ITrackedExerciseService trackedExerciseService,
-    IValidator<DateOnly> getTrackedExerciseByDayRequestValidator,
-    IValidator<DateOnly> getTrackedExerciseByMonthRequestValidator,
+    IValidator<DateOnly> getByDayOrMonthRequestValidator,
     IValidator<int> getTrackedExerciseByYearRequestValidator,
     IValidator<CreateTrackedExerciseRequest> createTrackedExerciseRequestValidator,
     IValidator<UpdateTrackedExerciseRequest> updateTrackedExerciseRequestValidator) : ControllerBase
@@ -29,7 +28,7 @@ public class TrackedExerciseController(
     [ProducesResponseType(typeof(GetTrackedExercisesResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyTrackedExercisesByDay([FromQuery] DateOnly date, CancellationToken ct)
     {
-        var validation = await getTrackedExerciseByDayRequestValidator.ValidateAsync(date, ct);
+        var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
         if (!validation.IsValid)
         {
             return BadRequest(ValidationErrorFormatter.FormatErrors(validation));
@@ -41,15 +40,15 @@ public class TrackedExerciseController(
 
     [HttpGet("month")]
     [ProducesResponseType(typeof(GetTrackedExercisesResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetMyTrackedExercisesByMonth([FromQuery] DateOnly monthDate, CancellationToken ct)
+    public async Task<IActionResult> GetMyTrackedExercisesByMonth([FromQuery] DateOnly date, CancellationToken ct)
     {
-        var validation = await getTrackedExerciseByMonthRequestValidator.ValidateAsync(monthDate, ct);
+        var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
         if (!validation.IsValid)
         {
             return BadRequest(ValidationErrorFormatter.FormatErrors(validation));
         }
 
-        var response = await trackedExerciseService.GetMyTrackedExercisesByMonthAsync(monthDate, ct);
+        var response = await trackedExerciseService.GetMyTrackedExercisesByMonthAsync(date, ct);
         return StatusCode((int)response.StatusCode, response);
     }
 

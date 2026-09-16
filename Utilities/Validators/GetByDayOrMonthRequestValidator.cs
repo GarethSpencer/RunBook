@@ -2,9 +2,9 @@
 
 namespace Utilities.Validators;
 
-public class GetTrackedExerciseByDayRequestValidator : AbstractValidator<DateOnly>
+public class GetByDayOrMonthRequestValidator : AbstractValidator<DateOnly>
 {
-    public GetTrackedExerciseByDayRequestValidator()
+    public GetByDayOrMonthRequestValidator()
     {
         RuleFor(x => x)
             .NotEmpty().WithMessage("Date is required.")

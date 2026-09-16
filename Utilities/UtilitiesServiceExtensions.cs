@@ -26,8 +26,7 @@ public static class UtilitiesServiceExtensions
         services.AddScoped<IValidator<UpdateExerciseTypeRequest>, UpdateExerciseTypeRequestValidator>();
         services.AddScoped<IValidator<CreateTrackedExerciseRequest>, CreateTrackedExerciseRequestValidator>();
         services.AddScoped<IValidator<UpdateTrackedExerciseRequest>, UpdateTrackedExerciseRequestValidator>();
-        services.AddScoped<IValidator<DateOnly>, GetTrackedExerciseByDayRequestValidator>();
-        services.AddScoped<IValidator<DateOnly>, GetTrackedExerciseByMonthRequestValidator>();
-        services.AddScoped<IValidator<int>, GetTrackedExerciseByYearRequestValidator>();
+        services.AddScoped<IValidator<DateOnly>, GetByDayOrMonthRequestValidator>();
+        services.AddScoped<IValidator<int>, GetByYearRequestValidator>();
     }
 }
