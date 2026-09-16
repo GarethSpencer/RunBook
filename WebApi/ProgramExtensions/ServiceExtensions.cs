@@ -38,7 +38,6 @@ public static class ServiceExtensions
     {
         return services.AddApiVersioning(opts =>
         {
-            opts.AssumeDefaultVersionWhenUnspecified = true;
             opts.ReportApiVersions = true;
             opts.ApiVersionReader = new UrlSegmentApiVersionReader();
         })

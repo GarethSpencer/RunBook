@@ -56,7 +56,7 @@ public sealed class ExerciseTypeRepository(RunBookDbContext dbContext) : EFRepos
         };
 
         await _dbSet.AddAsync(newExerciseType, ct);
-        return new IdCreation(newExerciseType);
+        return new ExerciseTypeIdCreation(newExerciseType);
     }
 
     public async Task UpdateAsync(int id, UpdateExerciseTypeRequest request, CancellationToken ct)

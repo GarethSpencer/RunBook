@@ -14,6 +14,7 @@ public static class ServiceLayerServiceExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IExerciseTypeService, ExerciseTypeService>();
+        services.AddScoped<ITrackedExerciseService, TrackedExerciseService>();
 
         return services;
     }

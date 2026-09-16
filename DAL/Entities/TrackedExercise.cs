@@ -12,8 +12,8 @@ public class TrackedExercise: AuditableEntity, IRecording
     public required int Duration { get; set; }
     public required int ExerciseTypeId { get; set; }
 
-    public required ExerciseType ExerciseType { get; set; }
-    public required User User { get; set; }
+    public ExerciseType? ExerciseType { get; set; }
+    public User? User { get; set; }
 
     [NotMapped]
     public int RecordingId

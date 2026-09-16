@@ -11,7 +11,7 @@ public class Weight: AuditableEntity, IRecording
     public required DateOnly Date { get; set; }
     public required decimal RecordedWeight { get; set; }
 
-    public required User User { get; set; }
+    public User? User { get; set; }
 
     [NotMapped]
     public int RecordingId

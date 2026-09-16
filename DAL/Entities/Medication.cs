@@ -11,7 +11,7 @@ public class Medication: AuditableEntity, IRecording
     public required DateOnly Date { get; set; }
     public required bool TakenMedication { get; set; }
 
-    public required User User { get; set; }
+    public User? User { get; set; }
 
     [NotMapped]
     public int RecordingId

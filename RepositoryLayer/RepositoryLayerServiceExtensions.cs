@@ -27,6 +27,7 @@ public static class RepositoryLayerServiceExtensions
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>();
+        services.AddScoped<ITrackedExerciseRepository, TrackedExerciseRepository>();
 
         return services;
     }
