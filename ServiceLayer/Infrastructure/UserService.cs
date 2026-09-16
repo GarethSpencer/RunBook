@@ -28,7 +28,7 @@ public class UserService(ITokenData tokenData,
             }.WithResponseLog(logger);
         }
 
-        var callingUserId = tokenData.UserId!.Value;
+        var callingUserId = tokenData.UserId.Value;
         if (!tokenData.IsAdmin && callingUserId != userId)
         {
             return new CommonResponse
@@ -85,7 +85,7 @@ public class UserService(ITokenData tokenData,
             }.WithResponseLog(logger);
         }
 
-        var callingUserId = tokenData.UserId!.Value;
+        var callingUserId = tokenData.UserId.Value;
         var user = await userRepository.GetDetailsByIdAsync(callingUserId, ct);
         if (user == null)
         {
@@ -115,7 +115,7 @@ public class UserService(ITokenData tokenData,
             }.WithResponseLog(logger);
         }
 
-        var callingUserId = tokenData.UserId!.Value;
+        var callingUserId = tokenData.UserId.Value;
         var userExists = await userRepository.ExistsAsync(x => x.UserId == userId, ct);
         if (!userExists)
         {
@@ -166,7 +166,7 @@ public class UserService(ITokenData tokenData,
             }.WithResponseLog(logger);
         }
 
-        var callingUserId = tokenData.UserId!.Value;
+        var callingUserId = tokenData.UserId.Value;
         if (!tokenData.IsAdmin)
         {
             return new CommonResponse

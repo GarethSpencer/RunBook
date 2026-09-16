@@ -6,7 +6,7 @@ namespace DAL.Entities;
 
 public class TrackedExercise: AuditableEntity, IRecording
 {
-    public required int TrackedExerciseId { get; set; }
+    public int TrackedExerciseId { get; set; }
     public required Guid UserId { get; set; }
     public required DateOnly Date { get; set; }
     public required int Duration { get; set; }

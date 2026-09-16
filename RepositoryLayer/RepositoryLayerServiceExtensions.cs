@@ -26,6 +26,7 @@ public static class RepositoryLayerServiceExtensions
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>();
 
         return services;
     }

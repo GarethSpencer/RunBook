@@ -6,7 +6,7 @@ namespace DAL.Entities;
 
 public class DailyExercise : AuditableEntity, IRecording
 {
-    public required int DailyExerciseId { get; set; }
+    public int DailyExerciseId { get; set; }
     public required Guid UserId { get; set; }
     public required DateOnly Date { get; set; }
     public required bool Exercised { get; set; }

@@ -6,7 +6,7 @@ namespace DAL.Entities;
 
 public class Medication: AuditableEntity, IRecording
 {
-    public required int MedicationId { get; set; }
+    public int MedicationId { get; set; }
     public required Guid UserId { get; set; }
     public required DateOnly Date { get; set; }
     public required bool TakenMedication { get; set; }

@@ -6,7 +6,7 @@ namespace DAL.Entities;
 
 public class Steps: AuditableEntity, IRecording
 {
-    public required int StepsId { get; set; }
+    public int StepsId { get; set; }
     public required Guid UserId { get; set; }
     public required DateOnly Date { get; set; }
     public required int CompletedSteps { get; set; }

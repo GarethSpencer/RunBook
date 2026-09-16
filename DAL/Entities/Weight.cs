@@ -6,7 +6,7 @@ namespace DAL.Entities;
 
 public class Weight: AuditableEntity, IRecording
 {
-    public required int WeightId { get; set; }
+    public int WeightId { get; set; }
     public required Guid UserId { get; set; }
     public required DateOnly Date { get; set; }
     public required decimal RecordedWeight { get; set; }

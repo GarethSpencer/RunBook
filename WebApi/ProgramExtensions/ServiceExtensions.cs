@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi;
 using System.Text.Json.Serialization;
 using Utilities.Models.Responses.Generic;
 using WebApi.Transformers;
@@ -19,7 +20,10 @@ public static class ServiceExtensions
                 {
                     var errorResultBody = new ErrorResultResponse()
                     {
-                        Errors = [.. context.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)]
+                        Errors = [.. context.ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Where(e => !e.ErrorMessage.Contains("The request field is required."))
+                        .Select(e => e.ErrorMessage)]
                     };
                     return new BadRequestResponse(errorResultBody);
                 };
@@ -50,6 +54,7 @@ public static class ServiceExtensions
     {
         builder.AddOpenApi(options =>
         {
+            options.Document.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0;
             options.Document.AddDocumentTransformer<OAuthSecuritySchemeTransformer>();
         });
     }

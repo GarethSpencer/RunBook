@@ -22,5 +22,7 @@ public static class UtilitiesServiceExtensions
     {
         services.AddScoped<IValidator<PaginationBaseRequest>, PaginationBaseRequestValidator>();
         services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserRequestValidator>();
+        services.AddScoped<IValidator<CreateExerciseTypeRequest>, CreateExerciseTypeRequestValidator>();
+        services.AddScoped<IValidator<UpdateExerciseTypeRequest>, UpdateExerciseTypeRequestValidator>();
     }
 }
