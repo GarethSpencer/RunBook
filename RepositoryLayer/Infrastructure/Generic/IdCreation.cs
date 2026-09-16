@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using DAL.Entities.Abstractions;
 using RepositoryLayer.Abstractions.Generic;
 
 namespace RepositoryLayer.Infrastructure.Generic;
@@ -13,19 +14,9 @@ internal sealed class TrackedExerciseIdCreation(TrackedExercise entity) : IIdCre
     public int Id => entity.TrackedExerciseId;
 }
 
-internal sealed class DailyExerciseIdCreation(DailyExercise entity) : IIdCreation
+internal sealed class RecordingIdCreation(IRecording entity) : IIdCreation
 {
-    public int Id => entity.DailyExerciseId;
-}
-
-internal sealed class StepsIdCreation(Steps entity) : IIdCreation
-{
-    public int Id => entity.StepsId;
-}
-
-internal sealed class MedicationIdCreation(Medication entity) : IIdCreation
-{
-    public int Id => entity.MedicationId;
+    public int Id => entity.RecordingId;
 }
 
 internal sealed class WeightIdCreation(Weight entity) : IIdCreation

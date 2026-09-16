@@ -1,10 +1,8 @@
-﻿using DAL.Entities.Abstractions;
-using DAL.Entities.Base;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using DAL.Entities.Base;
 
 namespace DAL.Entities;
 
-public class TrackedExercise: AuditableEntity, IRecording
+public class TrackedExercise : AuditableEntity
 {
     public int TrackedExerciseId { get; set; }
     public required Guid UserId { get; set; }
@@ -14,18 +12,4 @@ public class TrackedExercise: AuditableEntity, IRecording
 
     public ExerciseType? ExerciseType { get; set; }
     public User? User { get; set; }
-
-    [NotMapped]
-    public int RecordingId
-    {
-        get
-        {
-            return TrackedExerciseId;
-        }
-
-        set
-        {
-            TrackedExerciseId = value;
-        }
-    }
 }

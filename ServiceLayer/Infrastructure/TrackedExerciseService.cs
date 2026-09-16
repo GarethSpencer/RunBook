@@ -108,11 +108,11 @@ public class TrackedExerciseService(ITokenData tokenData,
         var createdTrackedExercise = await trackedExerciseRepository.CreateAsync(request, callingUserId, ct);
         await unitOfWork.SaveChangesAsync(ct);
 
-        return new CreateTrackedExerciseResponse
+        return new CreateRecordingResponse
         {
             StatusCode = HttpStatusCode.Created,
             Message = $"Tracked exercise created successfully.",
-            TrackedExerciseId = createdTrackedExercise.Id
+            Id = createdTrackedExercise.Id
         }.WithResponseLog(logger, callingUserId, $"Tracked exercise [{createdTrackedExercise.Id}] created successfully.");
     }
 

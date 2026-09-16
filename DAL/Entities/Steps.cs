@@ -7,9 +7,9 @@ namespace DAL.Entities;
 public class Steps: AuditableEntity, IRecording
 {
     public int StepsId { get; set; }
-    public required Guid UserId { get; set; }
-    public required DateOnly Date { get; set; }
-    public required int CompletedSteps { get; set; }
+    public Guid UserId { get; set; }
+    public DateOnly Date { get; set; }
+    public bool CompletedSteps { get; set; }
 
     public User? User { get; set; }
 
@@ -24,6 +24,19 @@ public class Steps: AuditableEntity, IRecording
         set
         {
             StepsId = value;
+        }
+    }
+
+    [NotMapped]
+    public bool RecordedValue
+    {
+        get
+        {
+            return CompletedSteps;
+        }
+        set
+        {
+            CompletedSteps = value;
         }
     }
 }

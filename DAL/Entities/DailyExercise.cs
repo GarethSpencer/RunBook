@@ -7,9 +7,9 @@ namespace DAL.Entities;
 public class DailyExercise : AuditableEntity, IRecording
 {
     public int DailyExerciseId { get; set; }
-    public required Guid UserId { get; set; }
-    public required DateOnly Date { get; set; }
-    public required bool Exercised { get; set; }
+    public Guid UserId { get; set; }
+    public DateOnly Date { get; set; }
+    public bool Exercised { get; set; }
 
     public User? User { get; set; }
 
@@ -24,6 +24,19 @@ public class DailyExercise : AuditableEntity, IRecording
         set
         {
             DailyExerciseId = value;
+        }
+    }
+
+    [NotMapped]
+    public bool RecordedValue
+    {
+        get
+        {
+            return Exercised;
+        }
+        set
+        {
+            Exercised = value;
         }
     }
 }

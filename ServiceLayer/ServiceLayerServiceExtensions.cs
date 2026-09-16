@@ -15,6 +15,7 @@ public static class ServiceLayerServiceExtensions
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IExerciseTypeService, ExerciseTypeService>();
         services.AddScoped<ITrackedExerciseService, TrackedExerciseService>();
+        services.AddScoped<IDailyExerciseService, DailyExerciseService>();
 
         return services;
     }
