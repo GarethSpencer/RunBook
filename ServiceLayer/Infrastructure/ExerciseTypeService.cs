@@ -50,6 +50,15 @@ public class ExerciseTypeService(ITokenData tokenData,
         }
 
         var callingUserId = tokenData.UserId.Value;
+        if (!tokenData.IsAdmin)
+        {
+            return new CommonResponse
+            {
+                StatusCode = HttpStatusCode.Forbidden,
+                Message = "You cannot create exercise types."
+            }.WithResponseLog(logger, callingUserId);
+        }
+
         var nameExists = await exerciseTypeRepository.ExistsAsync(x => x.Name == request.Name, ct);
         if (nameExists)
         {
