@@ -39,6 +39,28 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         }.WithResponseLog(logger, callingUserId);
     }
 
+    public async Task<CommonResponse> GetMyLast30DaysRecordingsAsync(CancellationToken ct)
+    {
+        if (!tokenData.UserId.HasValue)
+        {
+            return new CommonResponse
+            {
+                StatusCode = HttpStatusCode.Unauthorized,
+                Message = "Unauthorized."
+            }.WithResponseLog(logger);
+        }
+
+        var callingUserId = tokenData.UserId.Value;
+        var recordings = await recordingRepository.GetLast30DaysAsync(callingUserId, ct);
+
+        return new GetRecordingsResponse
+        {
+            StatusCode = HttpStatusCode.OK,
+            Message = "Recordings returned successfully.",
+            Recordings = recordings
+        }.WithResponseLog(logger, callingUserId);
+    }
+
     public async Task<CommonResponse> GetMyRecordingsByMonthAsync(DateOnly monthDate, CancellationToken ct)
     {
         if (!tokenData.UserId.HasValue)
@@ -136,6 +158,16 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
             {
                 StatusCode = HttpStatusCode.NotFound,
                 Message = "Recording not found."
+            }.WithResponseLog(logger, callingUserId);
+        }
+
+        var existingRecording = await recordingRepository.GetByDayAsync(request.Date, callingUserId, ct);
+        if (existingRecording != null)
+        {
+            return new CommonResponse
+            {
+                StatusCode = HttpStatusCode.Conflict,
+                Message = "A recording for this date already exists."
             }.WithResponseLog(logger, callingUserId);
         }
 

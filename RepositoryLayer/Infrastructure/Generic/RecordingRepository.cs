@@ -45,6 +45,18 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         };
     }
 
+    public async Task<IEnumerable<RecordingResult>> GetLast30DaysAsync(Guid userId, CancellationToken ct)
+    {
+        var recordings = await _dbSet.Where(de => de.UserId == userId && de.Date >= DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-30))).ToListAsync(ct);
+
+        return recordings.Select(de => new RecordingResult
+        {
+            RecordingId = de.RecordingId,
+            Date = de.Date,
+            RecordedValue = de.RecordedValue
+        });
+    }
+
     public async Task<IEnumerable<RecordingResult>> GetByMonthAsync(DateOnly monthDate, Guid userId, CancellationToken ct)
     {
         var recordings = await _dbSet.Where(de => de.Date.Month == monthDate.Month && de.Date.Year == monthDate.Year && de.UserId == userId).ToListAsync(ct);

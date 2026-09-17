@@ -7,6 +7,8 @@ public interface IRecordingService
 {
     Task<CommonResponse> GetMyRecordingByDayAsync(DateOnly date, CancellationToken ct);
 
+    Task<CommonResponse> GetMyLast30DaysRecordingsAsync(CancellationToken ct);
+
     Task<CommonResponse> GetMyRecordingsByMonthAsync(DateOnly monthDate, CancellationToken ct);
 
     Task<CommonResponse> GetMyRecordingsByYearAsync(int year, CancellationToken ct);

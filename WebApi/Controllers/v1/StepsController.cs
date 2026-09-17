@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using ServiceLayer.Abstractions;
+using ServiceLayer.Infrastructure;
 using Utilities.Models.Requests;
 using Utilities.Models.Responses;
 using Utilities.Models.Responses.Generic;
@@ -34,6 +35,15 @@ public class StepsController(
         }
 
         var response = await stepsService.GetMyRecordingByDayAsync(date, ct);
+        return StatusCode((int)response.StatusCode, response);
+    }
+
+
+    [HttpGet]
+    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMyLast30DaysDailyExercises(CancellationToken ct)
+    {
+        var response = await stepsService.GetMyLast30DaysRecordingsAsync(ct);
         return StatusCode((int)response.StatusCode, response);
     }
 
