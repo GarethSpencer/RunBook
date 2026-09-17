@@ -13,7 +13,7 @@ using Utilities.Models.Token;
 namespace ServiceLayer.Infrastructure.Generic;
 
 public class RecordingService<TRecordingRepository>(ITokenData tokenData,
-    ILogger<DailyExerciseService> logger,
+    ILogger<RecordingService<TRecordingRepository>> logger,
     TRecordingRepository recordingRepository,
     IUnitOfWork unitOfWork) : IRecordingService where TRecordingRepository : IRecordingRepository
 {
