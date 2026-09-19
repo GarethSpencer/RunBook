@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using RepositoryLayer.Abstractions;
 using RepositoryLayer.Abstractions.Generic;
-using ServiceLayer.Abstractions;
 using ServiceLayer.Abstractions.Generic;
 using System.Net;
 using Utilities.Helpers;

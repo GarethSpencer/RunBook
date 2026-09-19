@@ -39,6 +39,28 @@ public class TrackedExerciseService(ITokenData tokenData,
         }.WithResponseLog(logger, callingUserId);
     }
 
+    public async Task<CommonResponse> GetMyLast30DaysTrackedExercisesAsync(CancellationToken ct)
+    {
+        if (!tokenData.UserId.HasValue)
+        {
+            return new CommonResponse
+            {
+                StatusCode = HttpStatusCode.Unauthorized,
+                Message = "Unauthorized."
+            }.WithResponseLog(logger);
+        }
+
+        var callingUserId = tokenData.UserId.Value;
+        var trackedExercises = await trackedExerciseRepository.GetLast30DaysAsync(callingUserId, ct);
+
+        return new GetTrackedExercisesResponse
+        {
+            StatusCode = HttpStatusCode.OK,
+            Message = "Tracked exercises returned successfully.",
+            TrackedExercises = trackedExercises
+        }.WithResponseLog(logger, callingUserId);
+    }
+
     public async Task<CommonResponse> GetMyTrackedExercisesByMonthAsync(DateOnly monthDate, CancellationToken ct)
     {
         if (!tokenData.UserId.HasValue)

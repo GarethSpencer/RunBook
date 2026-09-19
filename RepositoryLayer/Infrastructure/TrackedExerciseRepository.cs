@@ -42,6 +42,19 @@ public sealed class TrackedExerciseRepository(RunBookDbContext dbContext) : EFRe
         });
     }
 
+    public async Task<IEnumerable<TrackedExerciseResult>> GetLast30DaysAsync(Guid userId, CancellationToken ct)
+    {
+        var trackedExercises = await _dbSet.Where(te => te.UserId == userId && te.Date >= DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-30))).ToListAsync(ct);
+
+        return trackedExercises.Select(te => new TrackedExerciseResult
+        {
+            TrackedExerciseId = te.TrackedExerciseId,
+            ExerciseTypeId = te.ExerciseTypeId,
+            Date = te.Date,
+            Duration = te.Duration
+        });
+    }
+
     public async Task<IEnumerable<TrackedExerciseResult>> GetByMonthAsync(DateOnly monthDate, Guid userId, CancellationToken ct)
     {
         var trackedExercises = await _dbSet.Where(te => te.Date.Month == monthDate.Month && te.Date.Year == monthDate.Year && te.UserId == userId).ToListAsync(ct);
@@ -87,7 +100,6 @@ public sealed class TrackedExerciseRepository(RunBookDbContext dbContext) : EFRe
         var trackedExercise = await _dbSet.FindAsync([id], ct);
 
         trackedExercise?.ExerciseTypeId = request.ExerciseTypeId;
-        trackedExercise?.Date = request.Date;
         trackedExercise?.Duration = request.Duration;
     }
 

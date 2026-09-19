@@ -11,11 +11,6 @@ public class UpdateTrackedExerciseRequestValidator : AbstractValidator<UpdateTra
             .NotEmpty().WithMessage("Exercise Type is required.")
             .GreaterThanOrEqualTo(1).WithMessage("Exercise Type Id must be a positive integer.");
 
-        RuleFor(x => x.Date)
-            .NotEmpty().WithMessage("Date is required.")
-            .GreaterThanOrEqualTo(DateOnly.MinValue).WithMessage("Date is invalid.")
-            .LessThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow)).WithMessage("Date cannot be in the future.");
-
         RuleFor(x => x.Duration)
             .NotEmpty().WithMessage("Duration is required.")
             .GreaterThanOrEqualTo(1).WithMessage("Duration must be a positive number.")

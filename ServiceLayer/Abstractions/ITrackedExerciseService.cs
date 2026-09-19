@@ -7,6 +7,8 @@ public interface ITrackedExerciseService
 {
     Task<CommonResponse> GetMyTrackedExercisesByDayAsync(DateOnly date, CancellationToken ct);
 
+    Task<CommonResponse> GetMyLast30DaysTrackedExercisesAsync(CancellationToken ct);
+
     Task<CommonResponse> GetMyTrackedExercisesByMonthAsync(DateOnly monthDate, CancellationToken ct);
 
     Task<CommonResponse> GetMyTrackedExercisesByYearAsync(int year, CancellationToken ct);

@@ -37,6 +37,14 @@ public class TrackedExerciseController(
         return StatusCode((int)response.StatusCode, response);
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetMyLast30DaysTrackedExercises(CancellationToken ct)
+    {
+        var response = await trackedExerciseService.GetMyLast30DaysTrackedExercisesAsync(ct);
+        return StatusCode((int)response.StatusCode, response);
+    }
+
     [HttpGet("month")]
     [ProducesResponseType(typeof(GetTrackedExercisesResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyTrackedExercisesByMonth([FromQuery] DateOnly date, CancellationToken ct)
