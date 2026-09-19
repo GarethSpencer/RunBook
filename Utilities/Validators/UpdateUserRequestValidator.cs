@@ -32,7 +32,7 @@ public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
 
         RuleFor(x => x.TargetWeight)
             .GreaterThanOrEqualTo(30).WithMessage("Target weight must be at least 30 kg.")
-            .LessThanOrEqualTo(300).WithMessage("Target weight must not exceed 300 kg.")
+            .LessThanOrEqualTo(500).WithMessage("Target weight must not exceed 500 kg.")
             .When(x => x.TargetWeight.HasValue);
     }
 }

@@ -31,6 +31,7 @@ public static class RepositoryLayerServiceExtensions
         services.AddScoped<IDailyExerciseRepository, DailyExerciseRepository>();
         services.AddScoped<IMedicationRepository, MedicationRepository>();
         services.AddScoped<IStepsRepository, StepsRepository>();
+        services.AddScoped<IWeightRepository, WeightRepository>();
 
         return services;
     }

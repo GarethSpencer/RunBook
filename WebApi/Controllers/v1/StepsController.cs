@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using ServiceLayer.Abstractions;
-using ServiceLayer.Infrastructure;
 using Utilities.Models.Requests;
 using Utilities.Models.Responses;
 using Utilities.Models.Responses.Generic;

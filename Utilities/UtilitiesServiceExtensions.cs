@@ -30,5 +30,7 @@ public static class UtilitiesServiceExtensions
         services.AddScoped<IValidator<int>, GetByYearRequestValidator>();
         services.AddScoped<IValidator<CreateRecordingRequest<bool>>, CreateBoolRecordingRequestValidator>();
         services.AddScoped<IValidator<UpdateRecordingRequest<bool>>, UpdateBoolRecordingRequestValidator>();
+        services.AddScoped<IValidator<CreateRecordingRequest<decimal>>, CreateDecimalRecordingRequestValidator>();
+        services.AddScoped<IValidator<UpdateRecordingRequest<decimal>>, UpdateDecimalRecordingRequestValidator>();
     }
 }

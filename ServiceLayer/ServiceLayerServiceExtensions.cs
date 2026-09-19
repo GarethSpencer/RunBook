@@ -18,6 +18,7 @@ public static class ServiceLayerServiceExtensions
         services.AddScoped<IDailyExerciseService, DailyExerciseService>();
         services.AddScoped<IMedicationService, MedicationService>();
         services.AddScoped<IStepsService, StepsService>();
+        services.AddScoped<IWeightService, WeightService>();
 
         return services;
     }
