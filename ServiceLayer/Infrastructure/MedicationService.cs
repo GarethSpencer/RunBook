@@ -10,4 +10,4 @@ namespace ServiceLayer.Infrastructure;
 public class MedicationService(ITokenData tokenData,
     ILogger<MedicationService> logger,
     IMedicationRepository medicationRepository,
-    IUnitOfWork unitOfWork) : RecordingService<IMedicationRepository>(tokenData, logger, medicationRepository, unitOfWork), IMedicationService { }
+    IUnitOfWork unitOfWork) : RecordingService<IMedicationRepository, bool>(tokenData, logger, medicationRepository, unitOfWork), IMedicationService { }

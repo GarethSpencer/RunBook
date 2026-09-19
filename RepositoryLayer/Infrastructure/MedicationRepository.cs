@@ -5,4 +5,4 @@ using RepositoryLayer.Infrastructure.Generic;
 
 namespace RepositoryLayer.Infrastructure;
 
-public sealed class MedicationRepository(RunBookDbContext dbContext) : RecordingRepository<Medication>(dbContext), IMedicationRepository { }
+public sealed class MedicationRepository(RunBookDbContext dbContext) : RecordingRepository<Medication, bool>(dbContext), IMedicationRepository { }

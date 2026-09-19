@@ -12,10 +12,10 @@ using Utilities.Models.Token;
 
 namespace ServiceLayer.Infrastructure.Generic;
 
-public class RecordingService<TRecordingRepository>(ITokenData tokenData,
-    ILogger<RecordingService<TRecordingRepository>> logger,
+public class RecordingService<TRecordingRepository, TValue>(ITokenData tokenData,
+    ILogger<RecordingService<TRecordingRepository, TValue>> logger,
     TRecordingRepository recordingRepository,
-    IUnitOfWork unitOfWork) : IRecordingService where TRecordingRepository : IRecordingRepository
+    IUnitOfWork unitOfWork) : IRecordingService<TValue> where TRecordingRepository : IRecordingRepository<TValue>
 {
     public async Task<CommonResponse> GetMyRecordingByDayAsync(DateOnly date, CancellationToken ct)
     {
@@ -31,7 +31,7 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         var callingUserId = tokenData.UserId.Value;
         var recording = await recordingRepository.GetByDayAsync(date, callingUserId, ct);
 
-        return new GetRecordingResponse
+        return new GetRecordingResponse<TValue>
         {
             StatusCode = HttpStatusCode.OK,
             Message = "Recordings returned successfully.",
@@ -53,7 +53,7 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         var callingUserId = tokenData.UserId.Value;
         var recordings = await recordingRepository.GetLast30DaysAsync(callingUserId, ct);
 
-        return new GetRecordingsResponse
+        return new GetRecordingsResponse<TValue>
         {
             StatusCode = HttpStatusCode.OK,
             Message = "Recordings returned successfully.",
@@ -75,7 +75,7 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         var callingUserId = tokenData.UserId.Value;
         var recordings = await recordingRepository.GetByMonthAsync(monthDate, callingUserId, ct);
 
-        return new GetRecordingsResponse
+        return new GetRecordingsResponse<TValue>
         {
             StatusCode = HttpStatusCode.OK,
             Message = "Recordings returned successfully.",
@@ -97,7 +97,7 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         var callingUserId = tokenData.UserId.Value;
         var recordings = await recordingRepository.GetByYearAsync(year, callingUserId, ct);
 
-        return new GetRecordingsResponse
+        return new GetRecordingsResponse<TValue>
         {
             StatusCode = HttpStatusCode.OK,
             Message = "Recordings returned successfully.",
@@ -105,7 +105,7 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         }.WithResponseLog(logger, callingUserId);
     }
 
-    public async Task<CommonResponse> CreateMyRecordingAsync(CreateRecordingRequest request, CancellationToken ct)
+    public async Task<CommonResponse> CreateMyRecordingAsync(CreateRecordingRequest<TValue> request, CancellationToken ct)
     {
         if (!tokenData.UserId.HasValue)
         {
@@ -139,7 +139,7 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
         }.WithResponseLog(logger, callingUserId, $"Recording [{createdRecording.Id}] created successfully.");
     }
 
-    public async Task<CommonResponse> UpdateMyRecordingAsync(int recordingId, UpdateRecordingRequest request, CancellationToken ct)
+    public async Task<CommonResponse> UpdateMyRecordingAsync(int recordingId, UpdateRecordingRequest<TValue> request, CancellationToken ct)
     {
         if (!tokenData.UserId.HasValue)
         {
@@ -158,16 +158,6 @@ public class RecordingService<TRecordingRepository>(ITokenData tokenData,
             {
                 StatusCode = HttpStatusCode.NotFound,
                 Message = "Recording not found."
-            }.WithResponseLog(logger, callingUserId);
-        }
-
-        var existingRecording = await recordingRepository.GetByDayAsync(request.Date, callingUserId, ct);
-        if (existingRecording != null)
-        {
-            return new CommonResponse
-            {
-                StatusCode = HttpStatusCode.Conflict,
-                Message = "A recording for this date already exists."
             }.WithResponseLog(logger, callingUserId);
         }
 

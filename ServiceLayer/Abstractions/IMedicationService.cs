@@ -2,4 +2,4 @@
 
 namespace ServiceLayer.Abstractions;
 
-public interface IMedicationService : IRecordingService { }
+public interface IMedicationService : IRecordingService<bool> { }

@@ -7,10 +7,10 @@ using Utilities.Models.Results;
 
 namespace RepositoryLayer.Infrastructure.Generic;
 
-public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext) : EFRepository<TRecording>(dbContext), IRecordingRepository
-    where TRecording : class, IRecording, new()
+public abstract class RecordingRepository<TRecording, TValue>(RunBookDbContext dbContext) : EFRepository<TRecording>(dbContext), IRecordingRepository<TValue>
+    where TRecording : class, IRecording<TValue>, new()
 {
-    public async Task<RecordingResult?> GetByIdAsync(int recordingId, Guid userId, CancellationToken ct)
+    public async Task<RecordingResult<TValue>?> GetByIdAsync(int recordingId, Guid userId, CancellationToken ct)
     {
         var recordings = await _dbSet.Where(de => de.UserId == userId).ToListAsync(ct);
         var recording = recordings.FirstOrDefault(de => de.RecordingId == recordingId);
@@ -20,7 +20,7 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
             return null;
         }
 
-        return new RecordingResult
+        return new RecordingResult<TValue>
         {
             RecordingId = recording.RecordingId,
             Date = recording.Date,
@@ -28,7 +28,7 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         };
     }
 
-    public async Task<RecordingResult?> GetByDayAsync(DateOnly date, Guid userId, CancellationToken ct)
+    public async Task<RecordingResult<TValue>?> GetByDayAsync(DateOnly date, Guid userId, CancellationToken ct)
     {
         var recordings = await _dbSet.Where(de => de.Date == date && de.UserId == userId).FirstOrDefaultAsync(ct);
 
@@ -37,7 +37,7 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
             return null;
         }
 
-        return new RecordingResult
+        return new RecordingResult<TValue>
         {
             RecordingId = recordings.RecordingId,
             Date = recordings.Date,
@@ -45,11 +45,11 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         };
     }
 
-    public async Task<IEnumerable<RecordingResult>> GetLast30DaysAsync(Guid userId, CancellationToken ct)
+    public async Task<IEnumerable<RecordingResult<TValue>>> GetLast30DaysAsync(Guid userId, CancellationToken ct)
     {
         var recordings = await _dbSet.Where(de => de.UserId == userId && de.Date >= DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-30))).ToListAsync(ct);
 
-        return recordings.Select(de => new RecordingResult
+        return recordings.Select(de => new RecordingResult<TValue>
         {
             RecordingId = de.RecordingId,
             Date = de.Date,
@@ -57,11 +57,11 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         });
     }
 
-    public async Task<IEnumerable<RecordingResult>> GetByMonthAsync(DateOnly monthDate, Guid userId, CancellationToken ct)
+    public async Task<IEnumerable<RecordingResult<TValue>>> GetByMonthAsync(DateOnly monthDate, Guid userId, CancellationToken ct)
     {
         var recordings = await _dbSet.Where(de => de.Date.Month == monthDate.Month && de.Date.Year == monthDate.Year && de.UserId == userId).ToListAsync(ct);
 
-        return recordings.Select(de => new RecordingResult
+        return recordings.Select(de => new RecordingResult<TValue>
         {
             RecordingId = de.RecordingId,
             Date = de.Date,
@@ -69,11 +69,11 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         });
     }
 
-    public async Task<IEnumerable<RecordingResult>> GetByYearAsync(int year, Guid userId, CancellationToken ct)
+    public async Task<IEnumerable<RecordingResult<TValue>>> GetByYearAsync(int year, Guid userId, CancellationToken ct)
     {
         var recordings = await _dbSet.Where(de => de.Date.Year == year && de.UserId == userId).ToListAsync(ct);
 
-        return recordings.Select(de => new RecordingResult
+        return recordings.Select(de => new RecordingResult<TValue>
         {
             RecordingId = de.RecordingId,
             Date = de.Date,
@@ -81,7 +81,7 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         });
     }
 
-    public async Task<IIdCreation> CreateAsync(CreateRecordingRequest request, Guid userId, CancellationToken ct)
+    public async Task<IIdCreation> CreateAsync(CreateRecordingRequest<TValue> request, Guid userId, CancellationToken ct)
     {
         var newRecording = new TRecording
         {
@@ -91,14 +91,13 @@ public abstract class RecordingRepository<TRecording>(RunBookDbContext dbContext
         };
 
         await _dbSet.AddAsync(newRecording, ct);
-        return new RecordingIdCreation(newRecording);
+        return new RecordingIdCreation<TValue>(newRecording);
     }
 
-    public async Task UpdateAsync(int id, UpdateRecordingRequest request, CancellationToken ct)
+    public async Task UpdateAsync(int id, UpdateRecordingRequest<TValue> request, CancellationToken ct)
     {
         var recording = await _dbSet.FindAsync([id], ct);
 
-        recording?.Date = request.Date;
         recording?.RecordedValue = request.RecordedValue;
     }
 

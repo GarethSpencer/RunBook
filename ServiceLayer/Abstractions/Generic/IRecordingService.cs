@@ -3,7 +3,7 @@ using Utilities.Models.Responses.Generic;
 
 namespace ServiceLayer.Abstractions.Generic;
 
-public interface IRecordingService
+public interface IRecordingService<TValue>
 {
     Task<CommonResponse> GetMyRecordingByDayAsync(DateOnly date, CancellationToken ct);
 
@@ -13,9 +13,9 @@ public interface IRecordingService
 
     Task<CommonResponse> GetMyRecordingsByYearAsync(int year, CancellationToken ct);
 
-    Task<CommonResponse> CreateMyRecordingAsync(CreateRecordingRequest request, CancellationToken ct);
+    Task<CommonResponse> CreateMyRecordingAsync(CreateRecordingRequest<TValue> request, CancellationToken ct);
 
-    Task<CommonResponse> UpdateMyRecordingAsync(int recordingId, UpdateRecordingRequest request, CancellationToken ct);
+    Task<CommonResponse> UpdateMyRecordingAsync(int recordingId, UpdateRecordingRequest<TValue> request, CancellationToken ct);
 
     Task<CommonResponse> DeleteMyRecordingAsync(int recordingId, CancellationToken ct);
 }

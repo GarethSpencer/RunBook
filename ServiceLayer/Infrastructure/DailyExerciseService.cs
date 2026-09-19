@@ -10,4 +10,4 @@ namespace ServiceLayer.Infrastructure;
 public class DailyExerciseService(ITokenData tokenData,
     ILogger<DailyExerciseService> logger,
     IDailyExerciseRepository dailyExerciseRepository,
-    IUnitOfWork unitOfWork) : RecordingService<IDailyExerciseRepository>(tokenData, logger, dailyExerciseRepository, unitOfWork), IDailyExerciseService { }
+    IUnitOfWork unitOfWork) : RecordingService<IDailyExerciseRepository, bool>(tokenData, logger, dailyExerciseRepository, unitOfWork), IDailyExerciseService { }

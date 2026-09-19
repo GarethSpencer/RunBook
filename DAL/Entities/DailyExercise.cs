@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities;
 
-public class DailyExercise : AuditableEntity, IRecording
+public class DailyExercise : AuditableEntity, IRecording<bool>
 {
     public int DailyExerciseId { get; set; }
     public Guid UserId { get; set; }

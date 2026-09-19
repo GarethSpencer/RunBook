@@ -1,7 +1,6 @@
 ﻿namespace Utilities.Models.Requests;
 
-public record UpdateRecordingRequest
+public record UpdateRecordingRequest<TValue>
 {
-    public required DateOnly Date { get; set; }
-    public required bool RecordedValue { get; set; }
+    public required TValue RecordedValue { get; set; }
 }

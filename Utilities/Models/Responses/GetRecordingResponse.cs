@@ -3,7 +3,7 @@ using Utilities.Models.Results;
 
 namespace Utilities.Models.Responses;
 
-public class GetRecordingResponse : CommonResponse
+public class GetRecordingResponse<TValue> : CommonResponse
 {
-    public RecordingResult? Recording { get; set; }
+    public RecordingResult<TValue>? Recording { get; set; }
 }

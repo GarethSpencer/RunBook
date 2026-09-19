@@ -3,9 +3,9 @@ using Utilities.Models.Requests;
 
 namespace Utilities.Validators;
 
-public class UpdateDailyExerciseRequestValidator : AbstractValidator<UpdateRecordingRequest>
+public class CreateBoolRecordingRequestValidator : AbstractValidator<CreateRecordingRequest<bool>>
 {
-    public UpdateDailyExerciseRequestValidator()
+    public CreateBoolRecordingRequestValidator()
     {
         RuleFor(x => x.Date)
             .NotEmpty().WithMessage("Date is required.")

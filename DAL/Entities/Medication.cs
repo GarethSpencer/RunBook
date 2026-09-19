@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities;
 
-public class Medication: AuditableEntity, IRecording
+public class Medication: AuditableEntity, IRecording<bool>
 {
     public int MedicationId { get; set; }
     public Guid UserId { get; set; }

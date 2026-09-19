@@ -14,12 +14,7 @@ internal sealed class TrackedExerciseIdCreation(TrackedExercise entity) : IIdCre
     public int Id => entity.TrackedExerciseId;
 }
 
-internal sealed class RecordingIdCreation(IRecording entity) : IIdCreation
+internal sealed class RecordingIdCreation<TValue>(IRecording<TValue> entity) : IIdCreation
 {
     public int Id => entity.RecordingId;
-}
-
-internal sealed class WeightIdCreation(Weight entity) : IIdCreation
-{
-    public int Id => entity.WeightId;
 }

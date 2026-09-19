@@ -19,12 +19,12 @@ public class DailyExerciseController(
     IDailyExerciseService dailyExerciseService,
     IValidator<DateOnly> getByDayOrMonthRequestValidator,
     IValidator<int> getByYearRequestValidator,
-    IValidator<CreateRecordingRequest> createDailyExerciseRequestValidator,
-    IValidator<UpdateRecordingRequest> updateDailyExerciseRequestValidator) : ControllerBase
+    IValidator<CreateRecordingRequest<bool>> createDailyExerciseRequestValidator,
+    IValidator<UpdateRecordingRequest<bool>> updateDailyExerciseRequestValidator) : ControllerBase
 {
 
     [HttpGet("date")]
-    [ProducesResponseType(typeof(GetRecordingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyDailyExerciseByDay([FromQuery] DateOnly date, CancellationToken ct)
     {
         var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
@@ -38,7 +38,7 @@ public class DailyExerciseController(
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyLast30DaysDailyExercises(CancellationToken ct)
     {
         var response = await dailyExerciseService.GetMyLast30DaysRecordingsAsync(ct);
@@ -46,7 +46,7 @@ public class DailyExerciseController(
     }
 
     [HttpGet("month")]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyDailyExercisesByMonth([FromQuery] DateOnly date, CancellationToken ct)
     {
         var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
@@ -60,7 +60,7 @@ public class DailyExerciseController(
     }
 
     [HttpGet("year")]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyDailyExercisesByYear([FromQuery] int year, CancellationToken ct)
     {
         var validation = await getByYearRequestValidator.ValidateAsync(year, ct);
@@ -75,7 +75,7 @@ public class DailyExerciseController(
 
     [HttpPost]
     [ProducesResponseType(typeof(CreateRecordingResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateMyDailyExercise([FromBody] CreateRecordingRequest request, CancellationToken ct)
+    public async Task<IActionResult> CreateMyDailyExercise([FromBody] CreateRecordingRequest<bool> request, CancellationToken ct)
     {
         if (request == null)
         {
@@ -94,7 +94,7 @@ public class DailyExerciseController(
 
     [HttpPatch("{dailyExerciseId}")]
     [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateMyDailyExercise([FromRoute] int dailyExerciseId, [FromBody] UpdateRecordingRequest request, CancellationToken ct)
+    public async Task<IActionResult> UpdateMyDailyExercise([FromRoute] int dailyExerciseId, [FromBody] UpdateRecordingRequest<bool> request, CancellationToken ct)
     {
         if (request == null)
         {

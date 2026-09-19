@@ -10,4 +10,4 @@ namespace ServiceLayer.Infrastructure;
 public class StepsService(ITokenData tokenData,
     ILogger<StepsService> logger,
     IStepsRepository stepsRepository,
-    IUnitOfWork unitOfWork) : RecordingService<IStepsRepository>(tokenData, logger, stepsRepository, unitOfWork), IStepsService { }
+    IUnitOfWork unitOfWork) : RecordingService<IStepsRepository, bool>(tokenData, logger, stepsRepository, unitOfWork), IStepsService { }

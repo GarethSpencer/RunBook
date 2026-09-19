@@ -20,12 +20,12 @@ public class MedicationController(
     IMedicationService medicationService,
     IValidator<DateOnly> getByDayOrMonthRequestValidator,
     IValidator<int> getByYearRequestValidator,
-    IValidator<CreateRecordingRequest> createMedicationRequestValidator,
-    IValidator<UpdateRecordingRequest> updateMedicationRequestValidator) : ControllerBase
+    IValidator<CreateRecordingRequest<bool>> createMedicationRequestValidator,
+    IValidator<UpdateRecordingRequest<bool>> updateMedicationRequestValidator) : ControllerBase
 {
 
     [HttpGet("date")]
-    [ProducesResponseType(typeof(GetRecordingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyMedicationByDay([FromQuery] DateOnly date, CancellationToken ct)
     {
         var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
@@ -39,7 +39,7 @@ public class MedicationController(
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyLast30DaysDailyExercises(CancellationToken ct)
     {
         var response = await medicationService.GetMyLast30DaysRecordingsAsync(ct);
@@ -47,7 +47,7 @@ public class MedicationController(
     }
 
     [HttpGet("month")]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyMedicationsByMonth([FromQuery] DateOnly date, CancellationToken ct)
     {
         var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
@@ -61,7 +61,7 @@ public class MedicationController(
     }
 
     [HttpGet("year")]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyMedicationsByYear([FromQuery] int year, CancellationToken ct)
     {
         var validation = await getByYearRequestValidator.ValidateAsync(year, ct);
@@ -76,7 +76,7 @@ public class MedicationController(
 
     [HttpPost]
     [ProducesResponseType(typeof(CreateRecordingResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateMyMedication([FromBody] CreateRecordingRequest request, CancellationToken ct)
+    public async Task<IActionResult> CreateMyMedication([FromBody] CreateRecordingRequest<bool> request, CancellationToken ct)
     {
         if (request == null)
         {
@@ -95,7 +95,7 @@ public class MedicationController(
 
     [HttpPatch("{medicationId}")]
     [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateMyMedication([FromRoute] int medicationId, [FromBody] UpdateRecordingRequest request, CancellationToken ct)
+    public async Task<IActionResult> UpdateMyMedication([FromRoute] int medicationId, [FromBody] UpdateRecordingRequest<bool> request, CancellationToken ct)
     {
         if (request == null)
         {

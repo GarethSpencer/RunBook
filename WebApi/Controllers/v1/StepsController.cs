@@ -20,12 +20,12 @@ public class StepsController(
     IStepsService stepsService,
     IValidator<DateOnly> getByDayOrMonthRequestValidator,
     IValidator<int> getByYearRequestValidator,
-    IValidator<CreateRecordingRequest> createStepsRequestValidator,
-    IValidator<UpdateRecordingRequest> updateStepsRequestValidator) : ControllerBase
+    IValidator<CreateRecordingRequest<bool>> createStepsRequestValidator,
+    IValidator<UpdateRecordingRequest<bool>> updateStepsRequestValidator) : ControllerBase
 {
 
     [HttpGet("date")]
-    [ProducesResponseType(typeof(GetRecordingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyStepsByDay([FromQuery] DateOnly date, CancellationToken ct)
     {
         var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
@@ -40,7 +40,7 @@ public class StepsController(
 
 
     [HttpGet]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyLast30DaysDailyExercises(CancellationToken ct)
     {
         var response = await stepsService.GetMyLast30DaysRecordingsAsync(ct);
@@ -48,7 +48,7 @@ public class StepsController(
     }
 
     [HttpGet("month")]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyStepssByMonth([FromQuery] DateOnly date, CancellationToken ct)
     {
         var validation = await getByDayOrMonthRequestValidator.ValidateAsync(date, ct);
@@ -62,7 +62,7 @@ public class StepsController(
     }
 
     [HttpGet("year")]
-    [ProducesResponseType(typeof(GetRecordingsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetRecordingsResponse<bool>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetMyStepssByYear([FromQuery] int year, CancellationToken ct)
     {
         var validation = await getByYearRequestValidator.ValidateAsync(year, ct);
@@ -77,7 +77,7 @@ public class StepsController(
 
     [HttpPost]
     [ProducesResponseType(typeof(CreateRecordingResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CreateMySteps([FromBody] CreateRecordingRequest request, CancellationToken ct)
+    public async Task<IActionResult> CreateMySteps([FromBody] CreateRecordingRequest<bool> request, CancellationToken ct)
     {
         if (request == null)
         {
@@ -96,7 +96,7 @@ public class StepsController(
 
     [HttpPatch("{stepsId}")]
     [ProducesResponseType(typeof(CommonResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> UpdateMySteps([FromRoute] int stepsId, [FromBody] UpdateRecordingRequest request, CancellationToken ct)
+    public async Task<IActionResult> UpdateMySteps([FromRoute] int stepsId, [FromBody] UpdateRecordingRequest<bool> request, CancellationToken ct)
     {
         if (request == null)
         {

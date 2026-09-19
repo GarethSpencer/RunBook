@@ -2,4 +2,4 @@
 
 namespace ServiceLayer.Abstractions;
 
-public interface IDailyExerciseService : IRecordingService { }
+public interface IDailyExerciseService : IRecordingService<bool> { }

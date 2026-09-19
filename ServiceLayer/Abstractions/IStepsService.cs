@@ -2,4 +2,4 @@
 
 namespace ServiceLayer.Abstractions;
 
-public interface IStepsService : IRecordingService { }
+public interface IStepsService : IRecordingService<bool> { }

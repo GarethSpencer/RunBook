@@ -3,4 +3,4 @@ using RepositoryLayer.Abstractions.Generic;
 
 namespace RepositoryLayer.Abstractions;
 
-public interface IMedicationRepository : IEFRepository<Medication>, IRecordingRepository { }
+public interface IMedicationRepository : IEFRepository<Medication>, IRecordingRepository<bool> { }

@@ -5,4 +5,4 @@ using RepositoryLayer.Infrastructure.Generic;
 
 namespace RepositoryLayer.Infrastructure;
 
-public sealed class StepsRepository(RunBookDbContext dbContext) : RecordingRepository<Steps>(dbContext), IStepsRepository { }
+public sealed class StepsRepository(RunBookDbContext dbContext) : RecordingRepository<Steps, bool>(dbContext), IStepsRepository { }

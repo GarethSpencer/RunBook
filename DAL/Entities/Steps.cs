@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities;
 
-public class Steps: AuditableEntity, IRecording
+public class Steps: AuditableEntity, IRecording<bool>
 {
     public int StepsId { get; set; }
     public Guid UserId { get; set; }
